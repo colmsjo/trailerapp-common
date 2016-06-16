@@ -1,0 +1,29 @@
+/* globals gizur */
+/* eslint no-warning-comments: 0 */
+
+jQuery.sap.declare("gizur.trailerapp.Config");
+
+gizur.trailerapp.Config = {
+
+  appConfig: {
+    useMockData: true,
+    serverPath: 'https://odatadev.gizur.com/clabgizurcom/',
+    imagesPath: 'http://gizurcloud-clab.s3-website-eu-west-1.amazonaws.com/',
+    oDApiOptions: {
+        url: 'https://odatadev.gizur.com/',
+        accountId: 'user',
+        password: 'secret'
+    },
+    awsAccessKeyId: 'AKIAIKE5YP7C3CBINNSQ',
+
+    // gizur-tmp2 bucket
+    //policy: 'eyJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKImNvbmRpdGlvbnMiOiBbCiAgeyJidWNrZXQiOiAiZ2l6dXItdG1wMiJ9LAogIFsic3RhcnRzLXdpdGgiLCAiJGtleSIsICIiXSwKICB7ImFjbCI6ICJwdWJsaWMtcmVhZCJ9LAogIHsic3VjY2Vzc19hY3Rpb25fcmVkaXJlY3QiOiAiaHR0cDovL3d3dy5naXp1ci5jb20ifSwKICBbInN0YXJ0cy13aXRoIiwgIiRDb250ZW50LVR5cGUiLCAiIl0sCiAgWyJjb250ZW50LWxlbmd0aC1yYW5nZSIsIDAsIDUyNDI4ODAwMF0KXQp9Cg==',
+    //signature: '+H93myCPNFs8cH7ja0ivOGXiA2o=',
+    tempImagesPath: 'https://gizur-tmp2.s3.amazonaws.com/',
+
+    // gizurcloud-clab
+    policy: 'eyJleHBpcmF0aW9uIjogIjIwMjAtMDEtMDFUMDA6MDA6MDBaIiwKImNvbmRpdGlvbnMiOiBbCiAgeyJidWNrZXQiOiAiZ2l6dXJjbG91ZC1jbGFiIn0sCiAgWyJzdGFydHMtd2l0aCIsICIka2V5IiwgIiJdLAogIHsiYWNsIjogInB1YmxpYy1yZWFkIn0sCiAgeyJzdWNjZXNzX2FjdGlvbl9yZWRpcmVjdCI6ICJodHRwOi8vd3d3LmdpenVyLmNvbSJ9LAogIFsic3RhcnRzLXdpdGgiLCAiJENvbnRlbnQtVHlwZSIsICIiXSwKICBbImNvbnRlbnQtbGVuZ3RoLXJhbmdlIiwgMCwgNTI0Mjg4MDAwXQpdCn0K',
+    signature: 'iDHwel1mdk2DwTiL9IpUIyeqbHc='
+
+  }
+};
