@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Util.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="../../trailerapp-common/docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Util.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre><span class="hljs-comment">/* globals $ _ gizur */</span>
+<span class="hljs-comment">/* eslint consistent-this: ["error", "self"] */</span>
+<span class="hljs-comment">/* eslint no-warning-comments: 0 */</span>
+<span class="hljs-comment">/* eslint no-extend-native: ["error", { "exceptions": ["Array"] }] */</span>
+<span class="hljs-comment">/* eslint no-div-regex: 0 */</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h1 id="exports">Exports</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+jQuery.sap.declare(<span class="hljs-string">"gizur.trailerapp.util.Common"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h1 id="imports">Imports</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <p>TODO: Should rather set the config by calling a function or using a constructors</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>jQuery.sap.require(<span class="hljs-string">"gizur.trailerapp.Config"</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              <h1 id="the-common-class">The Common class</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+gizur.trailerapp.util.Common = {</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              <p>This makes it possible to control the logging level for our classes
+separately (avoiding all the OpenUI5 stuff)</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    log: <span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>),
+    debug: <span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>, <span class="hljs-string">'DEBUG'</span>),
+    error: <span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>, <span class="hljs-string">'ERROR'</span>),
+
+    xhr: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">oDataEntity, method, columns, filter, orderBy</span>) </span>{
+<span class="hljs-meta">        "use strict"</span>;
+
+        <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+        <span class="hljs-keyword">var</span> path = gizur.trailerapp.Config.appConfig.serverPath;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <p>Simple solution for returning mock data instead of performing ajax call</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">if</span> (gizur.trailerapp.Config.appConfig.useMockData) {
+            <span class="hljs-keyword">if</span> ([<span class="hljs-string">'POST'</span>,<span class="hljs-string">'PUT'</span>,<span class="hljs-string">'DELETE'</span>].indexOf(method) != <span class="hljs-number">-1</span>) {
+                <span class="hljs-keyword">return</span> <span class="hljs-built_in">Promise</span>.resolve({<span class="hljs-string">"msg"</span>: <span class="hljs-string">"update/insert/delete using mock data has no effect!"</span>});
+            }
+
+            <span class="hljs-keyword">var</span> filterName = <span class="hljs-string">""</span>;
+            <span class="hljs-keyword">if</span> (filter) {
+                filterName = filter.split(<span class="hljs-string">"'"</span>)[<span class="hljs-number">1</span>];
+            }
+
+            path = jQuery.sap.getModulePath(<span class="hljs-string">''</span>) + <span class="hljs-string">'/../localService/mockdata/'</span> +
+            oDataEntity + <span class="hljs-string">'.'</span> + filterName + <span class="hljs-string">'.json'</span>;
+
+            <span class="hljs-keyword">var</span> p = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Promise</span>(<span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">resolve, reject</span>) </span>{
+                $.getJSON(path, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">jsonArray</span>) </span>{
+                    <span class="hljs-keyword">var</span> res = <span class="hljs-built_in">JSON</span>.parse(<span class="hljs-built_in">JSON</span>.stringify(jsonArray), self.dateParser);
+                    resolve(res);
+                })
+                .fail(<span class="hljs-built_in">console</span>.log.bind(<span class="hljs-built_in">console</span>, <span class="hljs-string">'ERROR'</span>));
+            });
+
+            <span class="hljs-keyword">return</span> p;
+        } <span class="hljs-keyword">else</span> {
+            <span class="hljs-keyword">var</span> options = gizur.trailerapp.Config.appConfig.oDApiOptions;
+            <span class="hljs-keyword">var</span> od = <span class="hljs-keyword">new</span> Odata(options);
+
+            <span class="hljs-keyword">return</span> <span class="hljs-keyword">this</span>._oDApiGet(od, options.accountId, oDataEntity, columns, filter, orderBy, <span class="hljs-number">0</span>, []);
+        }
+    },
+
+    oDApiExecuteProcedure: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">procedure, params</span>) </span>{
+        <span class="hljs-keyword">var</span> options = gizur.trailerapp.Config.appConfig.oDApiOptions;
+        <span class="hljs-keyword">var</span> od = <span class="hljs-keyword">new</span> Odata(options);
+
+        <span class="hljs-keyword">return</span> od.executeProcedure(options.accountId, procedure, params);
+    },
+
+    generateUUID: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params"></span>)</span>{
+        <span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>().getTime();
+        <span class="hljs-keyword">if</span> (<span class="hljs-built_in">window</span>.performance &amp;&amp; <span class="hljs-keyword">typeof</span> <span class="hljs-built_in">window</span>.performance.now === <span class="hljs-string">"function"</span>){
+            d += performance.now(); <span class="hljs-comment">//use high-precision timer if available</span>
+        }
+        <span class="hljs-keyword">var</span> uuid = <span class="hljs-string">'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'</span>.replace(<span class="hljs-regexp">/[xy]/g</span>, <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">c</span>) </span>{
+            <span class="hljs-keyword">var</span> r = (d + <span class="hljs-built_in">Math</span>.random()*<span class="hljs-number">16</span>)%<span class="hljs-number">16</span> | <span class="hljs-number">0</span>;
+            d = <span class="hljs-built_in">Math</span>.floor(d/<span class="hljs-number">16</span>);
+            <span class="hljs-keyword">return</span> (c == <span class="hljs-string">'x'</span> ? r : (r&amp;<span class="hljs-number">0x3</span>|<span class="hljs-number">0x8</span>)).toString(<span class="hljs-number">16</span>);
+        });
+        <span class="hljs-keyword">return</span> uuid;
+    },
+
+    dataURItoBlob: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">dataURI</span>) </span>{ <span class="hljs-comment">// TODO temp</span></pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              <p>convert base64/URLEncoded data component to raw binary data held in a string</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> byteString = atob(dataURI);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>write the bytes of the string to a typed array</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>        <span class="hljs-keyword">var</span> ia = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Uint8Array</span>(byteString.length);
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+
+        <span class="hljs-keyword">return</span> <span class="hljs-keyword">new</span> Blob([ia], {type:<span class="hljs-string">"image/jpeg"</span>});
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>Recursively get entries via ODAPI until there is no more entries to return</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    _oDApiGet: <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">od, accountId, oDataEntity, columns, filter, orderBy, skip, previous</span>) </span>{
+        <span class="hljs-keyword">var</span> self = <span class="hljs-keyword">this</span>;
+
+        <span class="hljs-keyword">return</span> od.get(accountId, oDataEntity, columns, filter, orderBy, skip).then(
+            <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">result</span>) </span>{
+                <span class="hljs-keyword">var</span> data = result.data;
+                <span class="hljs-keyword">if</span> (data.length &gt; <span class="hljs-number">1</span>) {
+                    data.shift(); <span class="hljs-comment">// remove the first element which is the statuscode</span>
+                    previous = previous.concat(data);
+
+                    skip += data.length;
+
+                    <span class="hljs-keyword">return</span> self._oDApiGet(od, accountId, oDataEntity, columns, filter, orderBy, skip, previous);
+                } <span class="hljs-keyword">else</span> {
+                    <span class="hljs-keyword">return</span> previous;
+                }
+            }
+        );
+    },</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>Convert string in ISO 8601 to proper Date objectsUse this reviver with
+JSON.parse(json, this.dateParser);</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    dateParser: <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params">key, value</span>) </span>{
+<span class="hljs-meta">        "use strict"</span>;
+
+        <span class="hljs-keyword">if</span> ((key.toLowerCase().indexOf(<span class="hljs-string">'time'</span>) &gt; <span class="hljs-number">-1</span> ||
+        key.toLowerCase().indexOf(<span class="hljs-string">'date'</span>) &gt; <span class="hljs-number">-1</span> )
+        &amp;&amp; <span class="hljs-keyword">typeof</span> value === <span class="hljs-string">'string'</span>) {
+            <span class="hljs-keyword">var</span> d = <span class="hljs-keyword">new</span> <span class="hljs-built_in">Date</span>(value);
+            <span class="hljs-keyword">if</span> (d <span class="hljs-keyword">instanceof</span> <span class="hljs-built_in">Date</span> &amp;&amp; <span class="hljs-built_in">isFinite</span>(d)) {
+                <span class="hljs-keyword">return</span> d;
+            }
+        }
+        <span class="hljs-keyword">return</span> value;
+    }
+};</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h1 id="polyfill-for-array-find-since-it-isn-t-available-in-ie">Polyfill for Array.find since it isn’t available in IE</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              <p>from: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/find</a>
+TODO: move to separate file?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Array</span>.prototype.find) {
+    <span class="hljs-built_in">Array</span>.prototype.find = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">predicate</span>) </span>{
+<span class="hljs-meta">        'use strict'</span>;
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> === <span class="hljs-literal">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'Array.prototype.find called on null or undefined'</span>);
+        }
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> predicate !== <span class="hljs-string">'function'</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>(<span class="hljs-string">'predicate must be a function'</span>);
+        }
+        <span class="hljs-keyword">var</span> list = <span class="hljs-built_in">Object</span>(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">var</span> length = list.length &gt;&gt;&gt; <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">var</span> thisArg = <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>];
+        <span class="hljs-keyword">var</span> value;
+
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; length; i++) {
+            value = list[i];
+            <span class="hljs-keyword">if</span> (predicate.call(thisArg, value, i, list)) {
+                <span class="hljs-keyword">return</span> value;
+            }
+        }
+        <span class="hljs-keyword">return</span> <span class="hljs-literal">undefined</span>;
+    };
+}</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-17">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-17">&#182;</a>
+              </div>
+              <h1 id="polyfill-for-array-filter-since-it-isn-t-available-in-ie">Polyfill for Array.filter since it isn’t available in IE</h1>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-18">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-18">&#182;</a>
+              </div>
+              <p>from: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter">https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter</a>
+TODO: move to separate file?</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">if</span> (!<span class="hljs-built_in">Array</span>.prototype.filter) {
+    <span class="hljs-built_in">Array</span>.prototype.filter = <span class="hljs-function"><span class="hljs-keyword">function</span>(<span class="hljs-params">fun<span class="hljs-comment">/*, thisArg*/</span></span>) </span>{
+<span class="hljs-meta">        'use strict'</span>;
+
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">this</span> === <span class="hljs-literal">undefined</span> || <span class="hljs-keyword">this</span> === <span class="hljs-literal">null</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>();
+        }
+
+        <span class="hljs-keyword">var</span> t = <span class="hljs-built_in">Object</span>(<span class="hljs-keyword">this</span>);
+        <span class="hljs-keyword">var</span> len = t.length &gt;&gt;&gt; <span class="hljs-number">0</span>;
+        <span class="hljs-keyword">if</span> (<span class="hljs-keyword">typeof</span> fun !== <span class="hljs-string">'function'</span>) {
+            <span class="hljs-keyword">throw</span> <span class="hljs-keyword">new</span> <span class="hljs-built_in">TypeError</span>();
+        }
+
+        <span class="hljs-keyword">var</span> res = [];
+        <span class="hljs-keyword">var</span> thisArg = <span class="hljs-built_in">arguments</span>.length &gt;= <span class="hljs-number">2</span> ? <span class="hljs-built_in">arguments</span>[<span class="hljs-number">1</span>] : <span class="hljs-literal">undefined</span>;
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">var</span> i = <span class="hljs-number">0</span>; i &lt; len; i++) {
+            <span class="hljs-keyword">if</span> (i <span class="hljs-keyword">in</span> t) {
+                <span class="hljs-keyword">var</span> val = t[i];</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-19">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-19">&#182;</a>
+              </div>
+              <p>NOTE: Technically this should Object.defineProperty at
+      the next index, as push can be affected by
+      properties on Object.prototype and Array.prototype.
+      But that method’s new, and collisions should be
+      rare, so use the more-compatible alternative.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>                <span class="hljs-keyword">if</span> (fun.call(thisArg, val, i, t)) {
+                    res.push(val);
+                }
+            }
+        }
+
+        <span class="hljs-keyword">return</span> res;
+    };
+}</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+  <title>Gulpfile.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <meta name="viewport" content="width=device-width, target-densitydpi=160dpi, initial-scale=1.0; maximum-scale=1.0; user-scalable=0;">
+  <link rel="stylesheet" media="all" href="docco.css" />
+</head>
+<body>
+  <div id="container">
+    <div id="background"></div>
+    
+    <ul class="sections">
+        
+          <li id="title">
+              <div class="annotation">
+                  <h1>Gulpfile.js</h1>
+              </div>
+          </li>
+        
+        
+        
+        <li id="section-1">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-1">&#182;</a>
+              </div>
+              <p>Using: <a href="https://github.com/geekflyer/gulp-ui5-preload">https://github.com/geekflyer/gulp-ui5-preload</a></p>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-2">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-2">&#182;</a>
+              </div>
+              <h2 id="imports">Imports</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-3">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-3">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">var</span> del = <span class="hljs-built_in">require</span>(<span class="hljs-string">'del'</span>);
+<span class="hljs-keyword">var</span> gulp = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp'</span>);
+<span class="hljs-keyword">var</span> serve = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-serve'</span>);
+<span class="hljs-keyword">var</span> docco = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-docco'</span>);
+<span class="hljs-keyword">var</span> eslint = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-eslint'</span>);
+<span class="hljs-keyword">var</span> gulpif = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-if'</span>);
+<span class="hljs-keyword">var</span> uglify = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-uglify'</span>);
+<span class="hljs-keyword">var</span> prettydata = <span class="hljs-built_in">require</span>(<span class="hljs-string">'gulp-pretty-data'</span>);</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-4">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-4">&#182;</a>
+              </div>
+              <h2 id="config">Config</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-5">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-5">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+<span class="hljs-keyword">var</span> destDocco = <span class="hljs-string">'./docco'</span>;
+<span class="hljs-keyword">var</span> destResources = <span class="hljs-string">'./resources'</span>;</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-6">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-6">&#182;</a>
+              </div>
+              <h2 id="local-web-server">Local web server</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-7">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-7">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+gulp.task(<span class="hljs-string">'serve'</span>, serve({
+  root: [<span class="hljs-string">'./'</span>],
+  port: <span class="hljs-number">8125</span>,
+  https: <span class="hljs-literal">false</span>,
+}));</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-8">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-8">&#182;</a>
+              </div>
+              <h2 id="manage-resources">Manage resources</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-9">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-9">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+gulp.task(<span class="hljs-string">'clean'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> del([destDocco, destResources]);
+});
+
+<span class="hljs-keyword">var</span> packagesToCopy = [
+                 <span class="hljs-string">'bower_components/openui5-sap.ui.core/resources/**/*'</span>,
+                 <span class="hljs-string">'bower_components/openui5-themelib_sap_bluecrystal/resources/**/*'</span>,
+                 <span class="hljs-string">'bower_components/openui5-themelib_sap_bluecrystal/resources/**/*'</span>,
+                 <span class="hljs-string">'bower_components/lodash/dist/**/*'</span>];
+
+gulp.task(<span class="hljs-string">'setup'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> gulp.src(packagesToCopy)
+    .pipe(gulp.dest(destResources));
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-10">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-10">&#182;</a>
+              </div>
+              <h2 id="manage-our-code">Manage our code</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-11">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-11">&#182;</a>
+              </div>
+              
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-12">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-12">&#182;</a>
+              </div>
+              <p>generate documentation</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>gulp.task(<span class="hljs-string">'docco'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  gulp.src([<span class="hljs-string">"./**/*.js"</span>, <span class="hljs-string">'!resources/**'</span>, <span class="hljs-string">'!bower_components/**'</span>,
+                   <span class="hljs-string">'!node_modules/**'</span>])
+    .pipe(docco())
+    .pipe(gulp.dest(destDocco))
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-13">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-13">&#182;</a>
+              </div>
+              <p>check javascript source</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>gulp.task(<span class="hljs-string">'eslint'</span>, <span class="hljs-function"><span class="hljs-keyword">function</span> (<span class="hljs-params"></span>) </span>{
+  <span class="hljs-keyword">return</span> gulp.src([<span class="hljs-string">'**/*.js'</span>, <span class="hljs-string">'!resources/**'</span>, <span class="hljs-string">'!bower_components/**'</span>,
+                   <span class="hljs-string">'!node_modules/**'</span>, <span class="hljs-string">'!Gulpfile.js'</span>])
+    .pipe(eslint())
+    .pipe(eslint.format())</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-14">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-14">&#182;</a>
+              </div>
+              <p>To have the process exit with an error code (1) on
+lint error, return the stream and pipe to failAfterError last.</p>
+
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>    .pipe(eslint.failAfterError());
+});</pre></div></div>
+            
+        </li>
+        
+        
+        <li id="section-15">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-15">&#182;</a>
+              </div>
+              <h2 id="default">Default</h2>
+
+            </div>
+            
+        </li>
+        
+        
+        <li id="section-16">
+            <div class="annotation">
+              
+              <div class="pilwrap ">
+                <a class="pilcrow" href="#section-16">&#182;</a>
+              </div>
+              
+            </div>
+            
+            <div class="content"><div class='highlight'><pre>
+gulp.task(<span class="hljs-string">'default'</span>, [<span class="hljs-string">'eslint'</span>, <span class="hljs-string">'docco'</span>]);</pre></div></div>
+            
+        </li>
+        
+    </ul>
+  </div>
+</body>
+</html>

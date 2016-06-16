@@ -1,0 +1,24 @@
+{
+  "name": "trailerapp-common",
+  "description": "Trailerapp common classes",
+  "main": "index.html",
+  "authors": [
+    "Jonas Colmsjö"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/gizur/trailerapp-common",
+  "moduleType": [],
+  "private": false,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "openui5-sap.ui.core": "openui5/packaged-sap.ui.core#~1.36.6",
+    "openui5-themelib_sap_bluecrystal": "openui5/packaged-themelib_sap_bluecrystal#^1.36.6",
+    "lodash": "^4.11.1"
+  }
+}
