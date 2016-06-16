@@ -13,7 +13,7 @@ jQuery.sap.declare("gizur.trailerapp-common.util.Util");
 // =======
 
 // TODO: Should rather set the config by calling a function or using a constructors
-jQuery.sap.require("gizur.trailerapp-common.Config");
+jQuery.sap.require("gizur.trailerapp.Config");
 
 // The Util class
 // ================

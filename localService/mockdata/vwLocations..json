@@ -1,0 +1,106 @@
+[{
+    "location_id": "1",
+    "location": "Bro",
+    "presence": "1",
+    "picklist_valueid": "360"
+}, {
+    "location_id": "2",
+    "location": "Helsingborg",
+    "presence": "1",
+    "picklist_valueid": "361"
+}, {
+    "location_id": "3",
+    "location": "Malm&ouml;",
+    "presence": "1",
+    "picklist_valueid": "362"
+}, {
+    "location_id": "4",
+    "location": "V&auml;ster&aring;s",
+    "presence": "1",
+    "picklist_valueid": "375"
+}, {
+    "location_id": "5",
+    "location": "Enk&ouml;ping",
+    "presence": "1",
+    "picklist_valueid": "376"
+}, {
+    "location_id": "6",
+    "location": "Eskilstuna",
+    "presence": "1",
+    "picklist_valueid": "377"
+}, {
+    "location_id": "7",
+    "location": "Tomteboda",
+    "presence": "1",
+    "picklist_valueid": "378"
+}, {
+    "location_id": "8",
+    "location": "&Aring;rsta",
+    "presence": "1",
+    "picklist_valueid": "379"
+}, {
+    "location_id": "9",
+    "location": "Alvesta",
+    "presence": "1",
+    "picklist_valueid": "380"
+}, {
+    "location_id": "10",
+    "location": "V&auml;xj&ouml;",
+    "presence": "1",
+    "picklist_valueid": "381"
+}, {
+    "location_id": "11",
+    "location": "Landskrona",
+    "presence": "1",
+    "picklist_valueid": "382"
+}, {
+    "location_id": "12",
+    "location": "Helsingborg hamnen",
+    "presence": "1",
+    "picklist_valueid": "383"
+}, {
+    "location_id": "13",
+    "location": "Helsingborg hagen",
+    "presence": "1",
+    "picklist_valueid": "384"
+}, {
+    "location_id": "14",
+    "location": "Helsingborg R&auml;nnarbanan",
+    "presence": "1",
+    "picklist_valueid": "385"
+}, {
+    "location_id": "15",
+    "location": "Helsingborg Europaflyer",
+    "presence": "1",
+    "picklist_valueid": "386"
+}, {
+    "location_id": "16",
+    "location": "Helsingborg STS",
+    "presence": "1",
+    "picklist_valueid": "387"
+}, {
+    "location_id": "17",
+    "location": "Helsingborg TT",
+    "presence": "1",
+    "picklist_valueid": "388"
+}, {
+    "location_id": "18",
+    "location": "Malm&ouml; OT",
+    "presence": "1",
+    "picklist_valueid": "389"
+}, {
+    "location_id": "19",
+    "location": "Malm&ouml; TX Logistik",
+    "presence": "1",
+    "picklist_valueid": "390"
+}, {
+    "location_id": "20",
+    "location": "Malm&ouml; STS",
+    "presence": "1",
+    "picklist_valueid": "391"
+}, {
+    "location_id": "21",
+    "location": "Malm&ouml; BMJ kylservice",
+    "presence": "1",
+    "picklist_valueid": "392"
+}]
