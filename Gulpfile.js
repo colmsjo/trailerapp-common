@@ -37,7 +37,10 @@ gulp.task('clean', function () {
 var packagesToCopy = [
                  'bower_components/openui5-sap.ui.core/resources/**/*',
                  'bower_components/openui5-themelib_sap_bluecrystal/resources/**/*',
-                 'bower_components/lodash/dist/**/*'];
+                 'bower_components/lodash/dist/**/*',
+                 'bower_components/openui5-sap.m/resources/**/*',
+                 'bower_components/openui5-sap.ui.layout/resources/**/*',
+                 'bower_components/openui5-sap.ui.unified/resources/**/*'];
 
 gulp.task('setup', function () {
   return gulp.src(packagesToCopy)

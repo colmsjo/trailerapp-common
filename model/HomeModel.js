@@ -4,7 +4,7 @@
 
 sap.ui.define([
   "sap/ui/model/json/JSONModel",
-  "gizur/trailerapp-common/util/Util",
+  "gizur/trailerapp/util/Util",
   "gizur/trailerapp/Config"
 ], function(JSONModel, Common, Config) {
   "use strict";

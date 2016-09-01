@@ -1,3 +1,3 @@
 sap.ui.define([
-  "test/unit/model/EventsModel"
+  "test/unit/model/Model"
 ], function() { "use strict"; });
