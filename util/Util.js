@@ -7,7 +7,7 @@
 // Exports
 // =======
 
-jQuery.sap.declare("gizur.trailerapp-common.util.Util");
+jQuery.sap.declare("gizur.trailerapp.util.Util");
 
 // Imports
 // =======
@@ -18,7 +18,7 @@ jQuery.sap.require("gizur.trailerapp.Config");
 // The Util class
 // ================
 
-gizur.trailerapp-common.util.Util = {
+gizur.trailerapp.util.Util = {
 
     // This makes it possible to control the logging level for our classes
     // separately (avoiding all the OpenUI5 stuff)
