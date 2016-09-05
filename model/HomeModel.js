@@ -4,7 +4,7 @@
 
 sap.ui.define([
   "sap/ui/model/json/JSONModel",
-  "gizur/trailerapp-common/util/Util",
+  "gizur/trailerapp/util/Util",
   "gizur/trailerapp/Config"
 ], function(JSONModel, Common, Config) {
   "use strict";
@@ -35,8 +35,8 @@ sap.ui.define([
     // ---------------------------
 
     _trailerIsValid: function() {
-        var trailer = this._oModel.getProperty("/sSelectedTrailerId");
-        var trailerList = this._oModel.getProperty("/TrailerList");
+        var trailer = this.getProperty("/sSelectedTrailerId");
+        var trailerList = this.getProperty("/TrailerList");
 
         if (!trailer) return false;
 
@@ -50,8 +50,8 @@ sap.ui.define([
     },
 
     _locationIsValid: function() {
-        var location = this._oModel.getProperty("/sSelectedLocationField");
-        var locationList = this._oModel.getProperty("/LocationList");
+        var location = this.getProperty("/sSelectedLocationField");
+        var locationList = this.getProperty("/LocationList");
 
         if (!location) return false;
 
@@ -64,12 +64,13 @@ sap.ui.define([
         return true;
     },
 
-    _loadTrailers: function() {
+    _loadTrailers: function(done) {
         var self = this;
 
         Common.xhr("vwTrailers", "GET", null, null, "assetname").then(
             function(result) {
-                self._oModel.setProperty("/TrailerList", result);
+                self.setProperty("/TrailerList", result);
+                if (done) done();
             }
         ).catch(
             function(error) {
@@ -78,12 +79,13 @@ sap.ui.define([
         );
     },
 
-    _loadLocations: function() {
+    _loadLocations: function(done) {
         var self = this;
 
         Common.xhr("vwLocations", "GET", null, null, "location_id").then(
             function(result) {
-                self._oModel.setProperty("/LocationList", result);
+                self.setProperty("/LocationList", result);
+                if (done) done();
             }
         ).catch(
             function(error) {
@@ -95,11 +97,11 @@ sap.ui.define([
     _loadExistingDamages: function(trailerId) {
         var self = this;
 
-        var trailer = self._oModel.getProperty("/sSelectedTrailerId");
+        var trailer = self.getProperty("/sSelectedTrailerId");
 
         Common.xhr("vwExistingDamagaes", "GET", null, "trailer_id EQ '" + trailer + "' AND status EQ 'Open'", "ticketid").then(
             function(result) {
-                self._oModel.setProperty("/DamageListSelectedTrailer", result);
+                self.setProperty("/DamageListSelectedTrailer", result);
 
                 var damageReportIds = self._getDamageReportIds(result);
                 var imagesPromises = [];
@@ -113,12 +115,12 @@ sap.ui.define([
         ).then(
             function(imagesArray) {
                 var images = [].concat.apply([], imagesArray);
-                var damageReports = self._oModel.getProperty("/DamageListSelectedTrailer");
+                var damageReports = self.getProperty("/DamageListSelectedTrailer");
 
                 self._addServerPath(images);
                 self._addImagesToDamageReports(damageReports, images);
 
-                self._oModel.setProperty("/DamageListSelectedTrailer", damageReports);
+                self.setProperty("/DamageListSelectedTrailer", damageReports);
             }
         ).catch(
             function(error) {
@@ -169,7 +171,7 @@ sap.ui.define([
 
         this.getView().byId("trailer-autocomplete").setFilterFunction(
             function(sValue, oItem) {
-                return oItem.getAdditionalText() == self._oModel.getProperty("/sCoopOrRented")
+                return oItem.getAdditionalText() == self.getProperty("/sCoopOrRented")
                     && ~oItem.getText().toLowerCase().indexOf(sValue.toLowerCase());
             }
         );
