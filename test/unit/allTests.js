@@ -1,3 +1,3 @@
 sap.ui.define([
-  "test/unit/model/Model"
+  "test/unit/model/HomeModel"
 ], function() { "use strict"; });
