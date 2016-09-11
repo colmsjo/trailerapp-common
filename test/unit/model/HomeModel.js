@@ -123,5 +123,86 @@ sap.ui.require(
       oHomeModel._loadTrailers(complete);
     });
 
+    //
+    // Testing Loading of Damages
+    //
+
+    QUnit.test('Should load Damages', function (assert) {
+      var done = assert.async();
+
+      // Setup the model
+      var oHomeModel = new HomeModel();
+      oHomeModel.init(true);
+
+      var complete = function () {
+
+          var damageModelStructure = ["ticketid",
+              "ticket_no",
+              "groupname",
+              "parent_id",
+              "product_id",
+              "priority",
+              "severity",
+              "status",
+              "category",
+              "title",
+              "solution",
+              "update_log",
+              "version_id",
+              "hours",
+              "days",
+              "from_portal",
+              "trailer_id",
+              "ticket_type",
+              "sealed",
+              "report_damage",
+              "drive_cause_damage",
+              "position_damage",
+              "type_of_damage",
+              "place",
+              "plates",
+              "straps",
+              "anteckningar",
+              "damage_status",
+              "description1",
+              "description2",
+              "image"];
+          var damageImageModelStructure = [
+              "modified_by",
+              "attachments_id",
+              "crmid",
+              "description",
+              "notes_id",
+              "note_no",
+              "title",
+              "filename",
+              "notecontent",
+              "folder_id",
+              "filetype",
+              "filelocationtype",
+              "filedownloadcount",
+              "filestatus",
+              "filesize",
+              "fileversion",
+              "troubleticket_id"];
+
+          var damageReports = oHomeModel.getProperty("/DamageListSelectedTrailer");
+          assert.ok(damageReports.length === 6, "Passed!");
+
+          for (var i in damageReports) {
+              for (var j in damageModelStructure) {
+                  assert.ok(damageReports[i].hasOwnProperty(damageModelStructure[j]), "Passed! " + damageModelStructure[j]);
+              }
+              for (var j in damageImageModelStructure) {
+                  assert.ok(damageReports[i]["image"].hasOwnProperty(damageImageModelStructure[j]), "Passed! " + damageImageModelStructure[j]);
+              }
+          }
+
+          done();
+      };
+
+      oHomeModel._loadExistingDamages("XXXTEST", complete);
+    });
+
   }
 );
