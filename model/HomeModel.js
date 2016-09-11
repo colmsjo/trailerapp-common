@@ -94,12 +94,12 @@ sap.ui.define([
         );
     },
 
-    _loadExistingDamages: function(trailerId) {
+    _loadExistingDamages: function(trailerId, done) {
         var self = this;
 
         var trailer = self.getProperty("/sSelectedTrailerId");
 
-        Common.xhr("vwExistingDamagaes", "GET", null, "trailer_id EQ '" + trailer + "' AND status EQ 'Open'", "ticketid").then(
+        Common.xhr("vwExistingDamagaes", "GET", null, "trailer_id EQ '" + trailerId + "' AND status EQ 'Open'", "ticketid").then(
             function(result) {
                 self.setProperty("/DamageListSelectedTrailer", result);
 
@@ -121,6 +121,10 @@ sap.ui.define([
                 self._addImagesToDamageReports(damageReports, images);
 
                 self.setProperty("/DamageListSelectedTrailer", damageReports);
+
+                //Test Harness
+
+                if (done) done();
             }
         ).catch(
             function(error) {
