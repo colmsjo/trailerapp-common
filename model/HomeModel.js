@@ -4,9 +4,8 @@
 
 sap.ui.define([
   "sap/ui/model/json/JSONModel",
-  "gizur/trailerapp/util/Util",
-  "gizur/trailerapp/Config"
-], function(JSONModel, Common, Config) {
+  "gizur/trailerapp/util/ServiceHelper"
+], function(JSONModel, ServiceHelper) {
   "use strict";
 
   return JSONModel.extend("gizur.trailerapp.model.HomeModel", {
@@ -26,15 +25,27 @@ sap.ui.define([
           sSealedOrNotSealed: "Sealed",
       });
 
-      this.setSizeLimit(200);
-
+      ServiceHelper._loadTrailers(this, '/TrailerList');
+      ServiceHelper._loadLocations(this, '/LocationList');
     },
 
-    //
-    // Should structure this better
-    // ---------------------------
+    setIsCooptrailer: function(cooptrailer) {
+      if (cooptrailer) {
+        this.setProperty("/sCoopOrRented", "Cooptrailer");
+      } else {
+        this.setProperty("/sCoopOrRented", "Hyrtrailer");
+      }
+    },
 
-    _trailerIsValid: function() {
+    setSealed: function(isSealed) {
+      if (isSealed) {
+        this.setProperty("/sSealedOrNotSealed", "Sealed");
+      } else {
+        this.setProperty("/sSealedOrNotSealed", "Not Sealed");
+      }
+    },
+
+    trailerIsValid: function() {
         var trailer = this.getProperty("/sSelectedTrailerId");
         var trailerList = this.getProperty("/TrailerList");
 
@@ -49,7 +60,11 @@ sap.ui.define([
         return true;
     },
 
-    _locationIsValid: function() {
+    fieldsAreValid: function() {
+        return this.trailerIsValid() && this.locationIsValid();
+    },
+
+    locationIsValid: function() {
         var location = this.getProperty("/sSelectedLocationField");
         var locationList = this.getProperty("/LocationList");
 
@@ -59,134 +74,8 @@ sap.ui.define([
         for (var i = 0; i < locationList.length; i++) {
             if (locationList[i]["location"] == location) found = true;
         }
-        if (!found) return false;
-
-        return true;
-    },
-
-    _loadTrailers: function(done) {
-        var self = this;
-
-        Common.xhr("vwTrailers", "GET", null, null, "assetname").then(
-            function(result) {
-                self.setProperty("/TrailerList", result);
-                if (done) done();
-            }
-        ).catch(
-            function(error) {
-                Common.error("Couldn't load trailers. Error: " + error);
-            }
-        );
-    },
-
-    _loadLocations: function(done) {
-        var self = this;
-
-        Common.xhr("vwLocations", "GET", null, null, "location_id").then(
-            function(result) {
-                self.setProperty("/LocationList", result);
-                if (done) done();
-            }
-        ).catch(
-            function(error) {
-                Common.error("Couldn't load locations. Error: " + error);
-            }
-        );
-    },
-
-    _loadExistingDamages: function(trailerId, done) {
-        var self = this;
-
-        var trailer = self.getProperty("/sSelectedTrailerId");
-
-        Common.xhr("vwExistingDamagaes", "GET", null, "trailer_id EQ '" + trailerId + "' AND status EQ 'Open'", "ticketid").then(
-            function(result) {
-                self.setProperty("/DamageListSelectedTrailer", result);
-
-                var damageReportIds = self._getDamageReportIds(result);
-                var imagesPromises = [];
-
-                for(var i = 0; i < damageReportIds.length; i++) {
-                    imagesPromises.push(Common.xhr("vwTroubleTickeAttachments", "GET", null, "troubleticket_id EQ '" + damageReportIds[i] + "'"));
-                }
-
-                return Promise.all(imagesPromises);
-            }
-        ).then(
-            function(imagesArray) {
-                var images = [].concat.apply([], imagesArray);
-                var damageReports = self.getProperty("/DamageListSelectedTrailer");
-
-                self._addServerPath(images);
-                self._addImagesToDamageReports(damageReports, images);
-
-                self.setProperty("/DamageListSelectedTrailer", damageReports);
-
-                //Test Harness
-
-                if (done) done();
-            }
-        ).catch(
-            function(error) {
-                Common.error("Couldn't load damage reports or images. Error: " + error);
-            }
-        );
-    },
-
-    _addImagesToDamageReports: function(reports, images) {
-        reports.forEach(
-            function(report) {
-                var found = images.find(
-                    function(image) {
-                        return image.troubleticket_id == report.ticketid;
-                    }
-                );
-
-                if (found) {
-                    report.image = found;
-                }
-            }
-        );
-    },
-
-    _getDamageReportIds: function(reports) {
-        var ids = [];
-        reports.forEach(
-            function(report) {
-                ids.push(report.ticketid);
-            }
-        );
-
-        return ids;
-    },
-
-    _addServerPath: function(images) {
-        var path = gizur.trailerapp.Config.appConfig.imagesPath;
-
-        images.forEach(
-            function(image) {
-                image.filename = path + image.filename;
-            }
-        );
-    },
-
-    _setAutocompleteFilters: function() {
-        var self = this;
-
-        this.getView().byId("trailer-autocomplete").setFilterFunction(
-            function(sValue, oItem) {
-                return oItem.getAdditionalText() == self.getProperty("/sCoopOrRented")
-                    && ~oItem.getText().toLowerCase().indexOf(sValue.toLowerCase());
-            }
-        );
-
-        this.getView().byId("location-autocomplete").setFilterFunction(
-            function(sValue, oItem) {
-                return ~oItem.getText().toLowerCase().indexOf(sValue.toLowerCase());
-            }
-        );
+        return found;
     }
-
 
   });
 
