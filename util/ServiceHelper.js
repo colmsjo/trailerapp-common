@@ -38,13 +38,12 @@ gizur.trailerapp.util.ServiceHelper = {
         );
     },
 
-    _loadLocations: function(_oModel, _oProp, done) {
+    _loadLocations: function(_oModel, _oProp) {
         var self = this;
 
         return self._oCommon.xhr(this._oConfig.serviceEndPonits.locations, "GET", null, null, "location_id").then(
             function(result) {
                 _oModel.setProperty(_oProp, result);
-                done && done();
             }
         ).catch(
             function(error) {

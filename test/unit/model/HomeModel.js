@@ -2,10 +2,11 @@
 
 sap.ui.require(
   [
-    'gizur/trailerapp/util/Util',
-    'gizur/trailerapp/model/HomeModel'
+    'gizur/trailerapp/util/Common',
+    'gizur/trailerapp/util/ServiceHelper',
+    'gizur/trailerapp/model/HomeModel',
   ],
-  function (Common, HomeModel) {
+  function (Common, ServiceHelper, HomeModel) {
     'use strict';
 
     QUnit.module('HomeModel');
@@ -19,16 +20,15 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
 
       var complete = function () {
           var locations = oHomeModel.getProperty("/LocationList");
-          console.log("locations.length", locations.length)
           assert.ok(locations.length == 21, "Passed!");
           done();
       };
 
-      oHomeModel._loadLocations(complete);
+      oHomeModel.init(true).then(complete);
+
     });
 
     QUnit.test('Should check validity of Locations', function (assert) {
@@ -36,17 +36,16 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
-
-      oHomeModel.setProperty("/sSelectedLocationField", "Tomteboda")
 
       var complete = function () {
+          oHomeModel.setProperty("/sSelectedLocationField", "Tomteboda");
           var locations = oHomeModel.getProperty("/LocationList");
-          assert.ok(oHomeModel._locationIsValid(), "Passed!");
+          assert.ok(oHomeModel.locationIsValid(), "Passed!");
           done();
       };
 
-      oHomeModel._loadLocations(complete);
+      oHomeModel.init(true).then(complete);
+
     });
 
     QUnit.test('Should check in-validity of Locations', function (assert) {
@@ -54,17 +53,15 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
-
-      oHomeModel.setProperty("/sSelectedLocationField", "New Delhi")
 
       var complete = function () {
           var locations = oHomeModel.getProperty("/LocationList");
-          assert.ok(oHomeModel._locationIsValid() === false, "Passed!");
+          oHomeModel.setProperty("/sSelectedLocationField", "New Delhi");
+          assert.ok(oHomeModel.locationIsValid() === false, "Passed!");
           done();
       };
 
-      oHomeModel._loadLocations(complete);
+      oHomeModel.init(true).then(complete);
     });
 
     //
@@ -76,7 +73,6 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
 
       var complete = function () {
           var trailers = oHomeModel.getProperty("/TrailerList");
@@ -84,7 +80,7 @@ sap.ui.require(
           done();
       };
 
-      oHomeModel._loadTrailers(complete);
+      oHomeModel.init(true).then(complete);
     });
 
     QUnit.test('Should check validity of Trailers', function (assert) {
@@ -92,17 +88,15 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
-
-      oHomeModel.setProperty("/sSelectedTrailerId", "BTL835KV")
 
       var complete = function () {
           var trailers = oHomeModel.getProperty("/TrailerList");
-          assert.ok(oHomeModel._trailerIsValid(), "Passed!");
+          oHomeModel.setProperty("/sSelectedTrailerId", "BTL835KV");
+          assert.ok(oHomeModel.trailerIsValid(), "Passed!");
           done();
       };
 
-      oHomeModel._loadTrailers(complete);
+      oHomeModel.init(true).then(complete);
     });
 
     QUnit.test('Should check in-validity of Trailers', function (assert) {
@@ -110,29 +104,26 @@ sap.ui.require(
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
-
-      oHomeModel.setProperty("/sSelectedTrailerId", "DDD###22")
 
       var complete = function () {
           var trailers = oHomeModel.getProperty("/TrailerList");
-          assert.ok(oHomeModel._trailerIsValid() === false, "Passed!");
+          oHomeModel.setProperty("/sSelectedTrailerId", "DDD###22");
+          assert.ok(oHomeModel.trailerIsValid() === false, "Passed!");
           done();
       };
 
-      oHomeModel._loadTrailers(complete);
+      oHomeModel.init(true).then(complete);
     });
 
     //
     // Testing Loading of Damages
     //
 
-    QUnit.test('Should load Damages', function (assert) {
+    QUnit.skip('Should load Damages', function (assert) {
       var done = assert.async();
 
       // Setup the model
       var oHomeModel = new HomeModel();
-      oHomeModel.init(true);
 
       var complete = function () {
 
@@ -201,7 +192,7 @@ sap.ui.require(
           done();
       };
 
-      oHomeModel._loadExistingDamages("XXXTEST", complete);
+      oHomeModel.init(true).then(complete);
     });
 
   }
