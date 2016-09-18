@@ -7,7 +7,7 @@
 // Exports
 // =======
 
-jQuery.sap.declare("gizur.trailerapp.util.Util");
+jQuery.sap.declare("gizur.trailerapp.util.Common");
 
 // Imports
 // =======
@@ -15,10 +15,10 @@ jQuery.sap.declare("gizur.trailerapp.util.Util");
 // TODO: Should rather set the config by calling a function or using a constructors
 jQuery.sap.require("gizur.trailerapp.Config");
 
-// The Util class
+// The Common class
 // ================
 
-gizur.trailerapp.util.Util = {
+gizur.trailerapp.util.Common = {
 
     // This makes it possible to control the logging level for our classes
     // separately (avoiding all the OpenUI5 stuff)
@@ -60,8 +60,22 @@ gizur.trailerapp.util.Util = {
             var options = gizur.trailerapp.Config.appConfig.oDApiOptions;
             var od = new Odata(options);
 
-            return this._oDApiGet(od, options.accountId, oDataEntity, columns, filter, orderBy, 0, []);
+            if (method.toUpperCase() === 'POST') {
+                return this._oDApiPost(od, options.accountId, oDataEntity, columns);
+            } else {
+                return this._oDApiGet(od, options.accountId, oDataEntity, columns, filter, orderBy, 0, []);
+            }
         }
+    },
+
+    addServerPathToImages: function(images) {
+        var path = gizur.trailerapp.Config.appConfig.imagesPath;
+
+        images.forEach(
+            function(image) {
+                image.filename = path + image.filename;
+            }
+        );
     },
 
     oDApiExecuteProcedure: function(procedure, params) {
@@ -114,6 +128,16 @@ gizur.trailerapp.util.Util = {
                 } else {
                     return previous;
                 }
+            }
+        );
+    },
+    
+    _oDApiPost: function(od, accountId, oDataEntity, columns) {
+        var self = this;
+
+        return od.executeProcedure(accountId, oDataEntity, columns).then(
+            function(result) {
+                return result;
             }
         );
     },
