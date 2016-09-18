@@ -25,8 +25,10 @@ sap.ui.define([
           sSealedOrNotSealed: "Sealed",
       });
 
-      ServiceHelper._loadTrailers(this, '/TrailerList');
-      ServiceHelper._loadLocations(this, '/LocationList');
+      return Promise.all(
+          [ServiceHelper._loadTrailers(this, '/TrailerList'),
+          ServiceHelper._loadLocations(this, '/LocationList')]
+        );
     },
 
     setIsCooptrailer: function(cooptrailer) {
